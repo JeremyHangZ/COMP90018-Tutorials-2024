@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         Explicit
     }
 
+    private static int counter1 = 0;
+
     private Step step = Step.Three;
     private IntentStyle intent = IntentStyle.Implicit;
 
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     binding.receivedMessage.setText("Button has been clicked from ViewBinding!");
+                    binding.counter1.setText("Page View: " + counter1 + "times");
                     Log.d(TAG, "onCreate: Step Three: Click View Binding Button!");
                     triggerButtonPressWithIntent();
                 }
@@ -93,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.counter1.setText("Page View: " + (++counter1) + " times");
     }
 
     public void triggerButtonPressWithIntent()
@@ -135,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode()==RESULT_OK){
                         binding.receivedMessage.setText(result.getData().getStringExtra(Main2Activity.RECEIVED_MESSAGE));
                     }
-
                 }
             });
 }
